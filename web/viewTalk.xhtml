@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Talk</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/templates/template.xhtml"> 
+            <ui:define name="header">
+                <ui:fragment>
+                    <ui:include src="/templates/navbar.xhtml"/>
+                </ui:fragment>
+            </ui:define>
+            
+            <ui:define name="content">
+                <h:form id="contentForm" enctype="multipart/form-data">
+                    <p:growl id="message" for="message" showDetail="true"/>
+                    <div class="col-sm-5 col-md-offset-3 col-md-5 main col-sm-offset-4 col-lg-5">
+                        <p:messages id="messages" for="messages" showDetail="true" autoUpdate="false">
+                            <h3>#{conferenceDetailsBean.currentTalk.title}</h3>
+                            <b:dataTable value="#{conferenceDetailsBean.currentTalk.authors}" var="author" searching="false" paginated="false">
+                                <b:dataTableColumn value="#{author.user.username}"/>
+                                <b:dataTableColumn label="Action">
+                                    <b:commandButton action="#{userBean.viewProfile(author.user)}" value="View profile"/>
+                                </b:dataTableColumn>
+                            </b:dataTable>
+                            Average rating: <h:outputText value="#{conferenceDetailsBean.talkRating}"/><br/>
+                            <p:rating value="#{conferenceDetailsBean.rating}"/><br/>
+                            <b:commandButton action="#{conferenceDetailsBean.rateTalk}" value="Rate"/>
+                            <br/>
+                            <b:commandButton action="#{conferenceDetailsBean.presentTalk}" value="Present talk" rendered="#{conferenceDetailsBean.canPresent()}" ajax="true" update=":contentForm"/>
+                            <br/>
+                            <p:fileUpload id="ppt" value="#{conferenceDetailsBean.ppt}" mode="simple" dragDropSupport="false" multiple="false" fileLimit="1" allowTypes="/(\.|\/)(ppt?x)$/" rendered="#{conferenceDetailsBean.isAuthor()}"/>
+                            <b:commandButton action="#{conferenceDetailsBean.uploadPpt}" value="Upload ppt" rendered="#{conferenceDetailsBean.isAuthor()}"/>
+                            <br/>
+                            <p:fileUpload id="pdf" value="#{conferenceDetailsBean.pdf}" mode="simple" dragDropSupport="false" multiple="false" fileLimit="1" allowTypes="/(\.|\/)(pdf)$/" rendered="#{conferenceDetailsBean.isAuthor()}"/>
+                            <b:commandButton action="#{conferenceDetailsBean.uploadPdf}" value="Upload pdf" rendered="#{conferenceDetailsBean.isAuthor()}"/>
+                            <br/>
+                            <b:commandButton action="#{conferenceDetailsBean.downloadPdf}" value="Download pdf" rendered="#{conferenceDetailsBean.canDownloadPdf()}"/>
+                            <br/>
+                            <b:commandButton action="#{conferenceDetailsBean.downloadPpt}" value="Download ppt" rendered="#{conferenceDetailsBean.canDownloadPpt()}"/>
+                        </p:messages>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

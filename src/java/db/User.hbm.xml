@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 26, 2017 5:09:54 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="db.User" table="user" catalog="pia_jul" optimistic-lock="version">
+        <id name="idUser" type="java.lang.Integer">
+            <column name="idUser" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="Name" not-null="true" />
+        </property>
+        <property name="surname" type="string">
+            <column name="Surname" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="Email" not-null="true" unique="true" />
+        </property>
+        <property name="institution" type="string">
+            <column name="Institution" not-null="true" />
+        </property>
+        <property name="username" type="string">
+            <column name="Username" not-null="true" unique="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="Password" not-null="true" />
+        </property>
+        <property name="gender" type="char">
+            <column name="Gender" length="1" not-null="true" />
+        </property>
+        <property name="size" type="string">
+            <column name="Size" length="3" not-null="true" />
+        </property>
+        <property name="linkedIn" type="string">
+            <column name="LinkedIn" />
+        </property>
+        <property name="isAdmin" type="boolean">
+            <column name="isAdmin" not-null="true" />
+        </property>
+        <set name="comments" table="comment" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="User_idUser" not-null="true" />
+            </key>
+            <one-to-many class="db.Comment" />
+        </set>
+        <set name="messages" table="message" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="User_idUser" not-null="true" />
+            </key>
+            <one-to-many class="db.Message" />
+        </set>
+        <set name="moderators" table="moderator" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="User_idUser" not-null="true" />
+            </key>
+            <one-to-many class="db.Moderator" />
+        </set>
+        <set name="ratings" table="rating" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="User_idUser" not-null="true" />
+            </key>
+            <one-to-many class="db.Rating" />
+        </set>
+        <set name="favouritesForUserIdUserSrc" table="favourite" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="User_idUserSrc" not-null="true" />
+            </key>
+            <one-to-many class="db.Favourite" />
+        </set>
+        <set name="favouritesForUserIdUserDst" table="favourite" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="User_idUserDst" not-null="true" />
+            </key>
+            <one-to-many class="db.Favourite" />
+        </set>
+        <set name="authors" table="author" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="User_idUser" not-null="true" />
+            </key>
+            <one-to-many class="db.Author" />
+        </set>
+        <set name="subsctiptions" table="subsctiption" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="User_idUser" not-null="true" />
+            </key>
+            <one-to-many class="db.Subsctiption" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 26, 2017 5:09:54 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="db.Workshop" table="workshop" catalog="pia_jul" optimistic-lock="version">
+        <id name="programIdProgram" type="int">
+            <column name="Program_idProgram" />
+            <generator class="foreign">
+                <param name="property">program</param>
+            </generator>
+        </id>
+        <one-to-one name="program" class="db.Program" constrained="true"></one-to-one>
+        <property name="title" type="string">
+            <column name="Title" not-null="true" />
+        </property>
+        <property name="startDateTime" type="timestamp">
+            <column name="StartDateTime" length="19" not-null="true" />
+        </property>
+        <property name="endDateTime" type="timestamp">
+            <column name="EndDateTime" length="19" not-null="true" />
+        </property>
+        <set name="authors" table="author" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Workshop_Program_idProgram" />
+            </key>
+            <one-to-many class="db.Author" />
+        </set>
+    </class>
+</hibernate-mapping>

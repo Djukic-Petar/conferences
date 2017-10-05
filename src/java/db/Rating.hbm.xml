@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 26, 2017 5:09:54 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="db.Rating" table="rating" catalog="pia_jul" optimistic-lock="version">
+        <composite-id name="id" class="db.RatingId">
+            <key-property name="userIdUser" type="int">
+                <column name="User_idUser" />
+            </key-property>
+            <key-property name="talkIdTalk" type="int">
+                <column name="Talk_idTalk" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="talk" class="db.Talk" update="false" insert="false" fetch="select">
+            <column name="Talk_idTalk" not-null="true" />
+        </many-to-one>
+        <many-to-one name="user" class="db.User" update="false" insert="false" fetch="select">
+            <column name="User_idUser" not-null="true" />
+        </many-to-one>
+        <property name="rating" type="int">
+            <column name="Rating" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

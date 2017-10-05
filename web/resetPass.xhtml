@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Reset password</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/templates/template.xhtml">
+            
+            <ui:define name="header">
+                <ui:fragment>
+                    <ui:include src="/templates/navbar.xhtml"/>
+                </ui:fragment>
+            </ui:define>
+            
+            <ui:define name="content">
+                <h:form id="contentForm">
+                    <p:growl id="message" for="message" showDetail="true"/>
+                        <div class="col-sm-5 col-md-offset-3 col-md-5 main col-sm-offset-4 col-lg-5">
+                            <p:messages id="messages" for="messages" showDetail="true" autoUpdate="false">
+                                <b:panelGrid columns="1">
+                                    Username:
+                                    <b:inputText id="username" value="#{userBean.username}" required="true" requiredMessage="Please enter your username!"/>
+                                    <b:message for="@previous"/>
+                                    Old password:
+                                    <b:inputSecret id="password" value="#{userBean.password}" required="true" requiredMessage="Please enter your old password!"/>
+                                    <b:message for="@previous"/>
+                                    New password:
+                                    <p:password id="newPassword" value="#{userBean.newPassword}" required="true" match="passwordRepeat" size="127" styleClass="col-sm-12 col-md-12 main col-lg-12" requiredMessage="Please enter your password!"/>
+                                    <b:message for="@previous"/>
+                                    Confirm password:
+                                    <p:password id="passwordRepeat" styleClass="col-sm-12 col-md-12 main col-lg-12"/>
+                                    <b:commandButton value="Reset password" action="#{userBean.changePassword()}">
+                                    </b:commandButton>
+                                    <br/>
+                                </b:panelGrid>
+                            </p:messages>
+                        </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

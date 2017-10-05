@@ -1,0 +1,16 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:b="http://bootsfaces.net/ui">
+    <b:navBar brand="Conferences" brandHref="#" inverse="true" position="top" sticky="true" style-class="navbar navbar-light bg-primary">
+        <b:navbarLinks pull="left">
+            <b:form>
+                <b:navCommandLink class="navbar-brand navbar-brand-text" value="Home" action="#{navBean.home()}" rendered="#{!userBean.isAdmin()}"/>
+                <b:navCommandLink class="navbar-brand navbar-brand-text" value="Home" action="#{navBean.adminPanel()}" rendered="#{userBean.isAdmin()}"/>
+                <b:navCommandLink class="navbar-brand navbar-brand-text" value="Login" action="#{navBean.login()}" rendered="#{userBean.isUnregistered()}"/>
+                <b:navCommandLink class="navbar-brand navbar-brand-text" value="Logout" action="#{userBean.logout()}" rendered="#{!userBean.isUnregistered()}"/>
+                <b:navCommandLink class="navbar-brand navbar-brand-text" value="Register" action="#{navBean.register()}" rendered="#{userBean.isUnregistered()}"/>
+                <b:navCommandLink class="navbar-brand navbar-brand-text" value="Reset password" action="#{navBean.resetPass()}" rendered="#{userBean.isUnregistered()}"/>
+                <b:navCommandLink class="navbar-brand navbar-brand-text" value="My conferences" action="#{userBean.fetchMyConferences()}" rendered="#{userBean.isRegularUser()}"/>
+                <b:navCommandLink class="navbar-brand navbar-brand-text" value="Moderator" action="#{moderatorBean.moderatorPanel()}" rendered="#{userBean.isRegularUser()}"/>
+            </b:form>
+        </b:navbarLinks>
+    </b:navBar>
+</ui:composition>

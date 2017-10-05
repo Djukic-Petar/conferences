@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:o="http://omnifaces.org/ui">
+            
+
+    <div class="col-sm-5 col-md-offset-3 col-md-5 main col-sm-offset-4 col-lg-5">
+        <b:panelGrid columns="2">
+            Conference name: 
+            <p:autoComplete id="name" multiple="true" value="#{searchBean.selectedName}" completeMethod="#{searchBean.completeNames}"
+                        var="conference" itemLabel="#{conference.name}" itemValue="#{conference}" forceSelection="true">
+                <o:converter converterId="omnifaces.ListIndexConverter" list="#{searchBean.conferenceList}" />
+            </p:autoComplete>
+            Start date: <b:datepicker value="#{searchBean.startDate}"/>
+            End date: <b:datepicker value="#{searchBean.endDate}"/>
+            Field: <p:selectCheckboxMenu label="Field" id="field" value="#{searchBean.selectedFields}">
+                <f:selectItems value="#{searchBean.fieldStrings}" var="f" itemValue="#{f}" itemLabel="#{f}"/>
+            </p:selectCheckboxMenu>
+            <b:commandButton action="#{searchBean.search}" value="search" ajax="true" update=":contentForm"/>
+            <b:commandButton action="#{searchBean.today}" value="today's conferences" ajax="true" update=":contentForm"/>
+        </b:panelGrid>
+        <br/>
+        <b:dataTable value="#{searchBean.searchResults}" var="conference" searching="false">
+            <b:dataTableColumn value="#{conference.name}" orderable="false"/>
+            <b:dataTableColumn value="#{conference.location}" orderable="false"/>
+            <b:dataTableColumn value="#{conference.startDate}" label="Start date" orderable="false"/>
+            <b:dataTableColumn value="#{conference.endDate}" label="End date" orderable="false"/>
+            <b:dataTableColumn label="Action">
+                <b:commandButton action="#{userBean.showSubscribe(conference)}" value="Subscribe" rendered="#{searchBean.renderSignUp(conference)}"/>
+            </b:dataTableColumn>
+        </b:dataTable>
+    </div>
+
+</ui:composition>

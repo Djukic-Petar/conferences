@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 26, 2017 5:09:54 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="db.Moderator" table="moderator" catalog="pia_jul" optimistic-lock="version">
+        <composite-id name="id" class="db.ModeratorId">
+            <key-property name="userIdUser" type="int">
+                <column name="User_idUser" />
+            </key-property>
+            <key-property name="conferenceIdConference" type="int">
+                <column name="Conference_idConference" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="conference" class="db.Conference" update="false" insert="false" fetch="select">
+            <column name="Conference_idConference" not-null="true" />
+        </many-to-one>
+        <many-to-one name="user" class="db.User" update="false" insert="false" fetch="select">
+            <column name="User_idUser" not-null="true" />
+        </many-to-one>
+        <property name="pad" type="java.lang.Integer">
+            <column name="pad" />
+        </property>
+    </class>
+</hibernate-mapping>

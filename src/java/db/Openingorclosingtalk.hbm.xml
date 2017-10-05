@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 26, 2017 5:09:54 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="db.Openingorclosingtalk" table="openingorclosingtalk" catalog="pia_jul" optimistic-lock="version">
+        <id name="idOpeningOrClosingTalk" type="java.lang.Integer">
+            <column name="idOpeningOrClosingTalk" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="ceremony" class="db.Ceremony" fetch="select">
+            <column name="Ceremony_Program_idProgram" />
+        </many-to-one>
+        <many-to-one name="session" class="db.Session" fetch="select">
+            <column name="Session_Program_idProgram" />
+        </many-to-one>
+        <property name="startTime" type="time">
+            <column name="StartTime" length="8" not-null="true" />
+        </property>
+        <property name="endTime" type="time">
+            <column name="EndTime" length="8" not-null="true" />
+        </property>
+        <set name="authors" table="author" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="OpeningOrClosingTalk_idOpeningOrClosingTalk" />
+            </key>
+            <one-to-many class="db.Author" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Ceremony</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/templates/template.xhtml"> 
+            <ui:define name="header">
+                <ui:fragment>
+                    <ui:include src="/templates/navbar.xhtml"/>
+                </ui:fragment>
+            </ui:define>
+            
+            <ui:define name="content">
+                <h:form id="contentForm" enctype="multipart/form-data">
+                    <p:growl id="message" for="message" showDetail="true"/>
+                    <div class="col-sm-5 col-md-offset-3 col-md-5 main col-sm-offset-4 col-lg-5">
+                        <p:messages id="messages" for="messages" showDetail="true" autoUpdate="false">
+                            Start time: <h:outputText value="#{conferenceDetailsBean.currentCeremony.program.startDateTime}"/>
+                            End time: <h:outputText value="#{conferenceDetailsBean.currentCeremony.program.endDateTime}"/>
+                            Hall: <h:outputText value="#{conferenceDetailsBean.currentCeremony.program.hall}"/>
+                            <h3>Opening/closing talks</h3>
+                            <b:dataTable value="#{conferenceDetailsBean.ceremonyOOCTalks}" var="s" searching="false">
+                                <b:dataTableColumn value="#{s.startTime}" orderable="false"/>
+                                <b:dataTableColumn value="#{s.endTime}" orderable="false"/>
+                                <b:dataTableColumn label="Authors" value="#{conferenceDetailsBean.authorsToCSV(s.authors)}" orderable="false"/>
+                            </b:dataTable>
+                            <h3>Speeches</h3>
+                            <b:dataTable value="#{conferenceDetailsBean.ceremonyWelcomingSpeeches}" var="s" searching="false">
+                                <b:dataTableColumn value="#{s.startTime}" orderable="false"/>
+                                <b:dataTableColumn value="#{s.endTime}" orderable="false"/>
+                                <b:dataTableColumn label="Authors" value="#{conferenceDetailsBean.authorsToCSV(s.authors)}" orderable="false"/>
+                                <b:dataTableColumn label="Action" orderable="false">
+                                    <b:commandButton action="#{conferenceDetailsBean.viewTalk(s)}" value="View"/>
+                                </b:dataTableColumn>
+                            </b:dataTable>
+                            Likes: <h:outputText value="#{conferenceDetailsBean.sessionLikes}"/>
+                            <h3>Comments:</h3>
+                            <b:dataTable value="#{conferenceDetailsBean.programComments}" var="c" searching="false">
+                                <b:dataTableColumn value="#{c.user.username}" orderable="false"/>
+                                <b:dataTableColumn value="#{c.content}" orderable="false"/>
+                            </b:dataTable>
+                            <b:selectBooleanCheckbox label="Like" value="#{conferenceDetailsBean.liked}" rendered="#{conferenceDetailsBean.renderComments()}"/>
+                            <b:inputTextarea label="Comment" value="#{conferenceDetailsBean.comment}" rendered="#{conferenceDetailsBean.renderComments()}"/>
+                            <b:commandButton action="#{conferenceDetailsBean.addComment}" value="submit" ajax="true" update=":contentForm" rendered="#{conferenceDetailsBean.renderComments()}"/>
+                        </p:messages>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

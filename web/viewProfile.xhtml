@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:o="http://omnifaces.org/ui">
+    <h:head>
+        <title>#{userBean.toView.username}</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/templates/template.xhtml"> 
+            <ui:define name="header">
+                <ui:fragment>
+                    <ui:include src="/templates/navbar.xhtml"/>
+                </ui:fragment>
+            </ui:define>
+            
+            <ui:define name="content">
+                <h:form id="contentForm" enctype="multipart/form-data">
+                    <p:growl id="message" for="message" showDetail="true"/>
+                    <div class="col-sm-5 col-md-offset-3 col-md-5 main col-sm-offset-4 col-lg-5">
+                        <p:messages id="messages" for="messages" showDetail="true" autoUpdate="false">
+                            <h3>#{userBean.toView.name} #{userBean.toView.surname}</h3>
+                            <o:graphicImage value="#{userBean.photoToView}" dataURI="true"/><br/>
+                            Username: <h:outputText value="#{userBean.toView.username}"/><br/>
+                            Email address: <h:outputText value="#{userBean.toView.email}"/><br/>
+                            Institution: <h:outputText value="#{userBean.toView.institution}"/><br/>
+                            LinkedIn: <h:outputText value="#{userBean.toView.linkedIn}" rendered="#{userBean.toView.linkedIn != null}"/><br/>
+                            <b:commandButton value="Favorite" action="#{userBean.favoriteUser}" rendered="#{!userBean.inFavs()}"/><br/>
+                        </p:messages>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

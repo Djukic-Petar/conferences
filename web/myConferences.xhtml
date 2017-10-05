@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>My conferences</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/templates/template.xhtml"> 
+            <ui:define name="header">
+                <ui:fragment>
+                    <ui:include src="/templates/navbar.xhtml"/>
+                </ui:fragment>
+            </ui:define>
+            
+            <ui:define name="content">
+                <h:form id="contentForm" enctype="multipart/form-data">
+                    <p:growl id="message" for="message" showDetail="true"/>
+                    <div class="col-sm-5 col-md-offset-3 col-md-5 main col-sm-offset-4 col-lg-5">
+                        <p:messages id="messages" for="messages" showDetail="true" autoUpdate="false">
+                            <b:dataTable value="#{userBean.myConferences}" var="conference" searching="false">
+                                <b:dataTableColumn value="#{conference.name}" orderable="false"/>
+                                <b:dataTableColumn value="#{conference.location}" orderable="false"/>
+                                <b:dataTableColumn value="#{conference.startDate}" label="Start date" orderable="false"/>
+                                <b:dataTableColumn value="#{conference.endDate}" label="End date" orderable="false"/>
+                                <b:dataTableColumn label="Action" orderable="false">
+                                    <b:commandButton action="#{userBean.conferenceAgenda(conference)}" value="View agenda"/>
+                                    <b:commandButton action="#{userBean.myAgenda(conference)}" value="My agenda"/>
+                                    <b:commandButton action="#{galleryBean.showRootGallery(conference)}" value="Gallery"/>
+                                    <b:commandButton action="#{userBean.conferenceSubscribers(conference)}" value="View subscribers"/>
+                                </b:dataTableColumn>
+                            </b:dataTable>
+                        </p:messages>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

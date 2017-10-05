@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 26, 2017 5:09:54 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="db.Conference" table="conference" catalog="pia_jul" optimistic-lock="version">
+        <id name="idConference" type="java.lang.Integer">
+            <column name="idConference" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="field" class="db.Field" fetch="select">
+            <column name="Field_idField" not-null="true" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="Name" not-null="true" />
+        </property>
+        <property name="startDate" type="date">
+            <column name="StartDate" length="10" not-null="true" />
+        </property>
+        <property name="endDate" type="date">
+            <column name="EndDate" length="10" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="Password" not-null="true" />
+        </property>
+        <property name="location" type="string">
+            <column name="Location" />
+        </property>
+        <property name="calledOff" type="boolean">
+            <column name="CalledOff" not-null="true" />
+        </property>
+        <set name="programs" table="program" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Conference_idConference" not-null="true" />
+            </key>
+            <one-to-many class="db.Program" />
+        </set>
+        <set name="moderators" table="moderator" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Conference_idConference" not-null="true" />
+            </key>
+            <one-to-many class="db.Moderator" />
+        </set>
+        <set name="subsctiptions" table="subsctiption" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Conference_idConference" not-null="true" />
+            </key>
+            <one-to-many class="db.Subsctiption" />
+        </set>
+    </class>
+</hibernate-mapping>
